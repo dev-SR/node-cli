@@ -5,7 +5,9 @@ Simple CLI to create project form predefined templates
 ## Usages
 
 ```bash
-npx dev-sr
+npx dev-sr # for first time
+npx dev-sr@latest # if already executed 'npx dev-sr' before
+
 # or
 npm i dev-sr
 dev-sr

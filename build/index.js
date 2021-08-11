@@ -5,6 +5,8 @@ const inquirer_1 = require("inquirer");
 const fs = require("fs");
 const createDirectoryContents_1 = require("./createDirectoryContents");
 const ora = require("ora");
+const chalk = require("chalk");
+const log = console.log;
 // const __dirname = resolve(dirname(''));
 const CURRENT_DIR = process.cwd();
 // __dirname: dir of template -> D:\Others\Project\CLI\build
@@ -49,5 +51,9 @@ inquirer_1.prompt(QUESTIONS).then((answers) => {
         createDirectoryContents_1.default(templatePath, projectName);
         console.log();
         spinner.succeed('Project Created Successfully');
+        console.log();
+        console.log(chalk.yellow('Now run:'));
+        console.log(chalk.blue(`\tcd ${projectName}`));
+        console.log(chalk.blue("\tnpm install (or, 'yarn')"));
     }, 1000);
 });
