@@ -21,7 +21,7 @@ npm link
 ## How it works
 
 
-![gif](Animation.gif)
+![gif](cli.gif)
 
 ## Creating your own CLI with nodejs
 
