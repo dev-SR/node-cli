@@ -24,5 +24,9 @@
 		"chalk": "^4.1.2",
 		"inquirer": "^8.1.2",
 		"ora": "^5.4.1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/dev-SR/node-cli.git"
 	}
 }

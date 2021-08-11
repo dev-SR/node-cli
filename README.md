@@ -23,7 +23,7 @@ npm link
 ## How it works
 
 
-![gif](./cli.gif)
+![gif](https://raw.githubusercontent.com/dev-SR/node-cli/main/cli.gif)
 
 ## Creating your own CLI with nodejs
 
