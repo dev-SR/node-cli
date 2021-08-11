@@ -1,5 +1,5 @@
 {
-	"name": "cli",
+	"name": "dev-sr",
 	"version": "1.0.0",
 	"main": "build/index.js",
 	"bin": {
