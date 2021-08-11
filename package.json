@@ -1,6 +1,6 @@
 {
 	"name": "dev-sr",
-	"version": "1.2.3",
+	"version": "1.2.4",
 	"main": "build/index.js",
 	"bin": {
 		"dev-sr": "build/index.js"
@@ -12,7 +12,8 @@
 	"license": "MIT",
 	"scripts": {
 		"dev": "ts-node-dev --respawn src/index.ts",
-		"build": "tsc"
+		"build": "tsc",
+		"prepublish": "yarn build"
 	},
 	"devDependencies": {
 		"@types/node": "^16.4.13",
