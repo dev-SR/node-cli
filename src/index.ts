@@ -4,6 +4,8 @@ import { prompt } from 'inquirer';
 import * as fs from 'fs';
 import createDirectoryContents from './createDirectoryContents';
 import * as ora from 'ora';
+import * as chalk from 'chalk';
+const log = console.log;
 // const __dirname = resolve(dirname(''));
 
 const CURRENT_DIR = process.cwd();
@@ -51,5 +53,9 @@ prompt(QUESTIONS).then((answers) => {
 		createDirectoryContents(templatePath, projectName);
 		console.log();
 		spinner.succeed('Project Created Successfully');
+		console.log();
+		console.log(chalk.yellow('Now run:'));
+		console.log(chalk.blue(`\tcd ${projectName}`));
+		console.log(chalk.blue("\tnpm install (or, 'yarn')"));
 	}, 1000);
 });
