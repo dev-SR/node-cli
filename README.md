@@ -5,7 +5,9 @@ Simple CLI to create project form predefined templates
 ## Usages
 
 ```bash
-yarn create dev-sr
+npx dev-sr
+# or
+npm i dev-sr
 dev-sr
 ```
 
