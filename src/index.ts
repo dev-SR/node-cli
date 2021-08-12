@@ -6,6 +6,12 @@ import createDirectoryContents from './createDirectoryContents';
 import * as ora from 'ora';
 import * as chalk from 'chalk';
 const log = console.log;
+
+const error = chalk.red;
+const warn = chalk.yellow;
+const info = chalk.blue;
+const green = chalk.green;
+
 // const __dirname = resolve(dirname(''));
 
 const CURRENT_DIR = process.cwd();
@@ -54,8 +60,22 @@ prompt(QUESTIONS).then((answers) => {
 		console.log();
 		spinner.succeed('Project Created Successfully');
 		console.log();
-		console.log(chalk.yellow('Now run:'));
-		console.log(chalk.blue(`\tcd ${projectName}`));
-		console.log(chalk.blue("\tnpm install (or, 'yarn')"));
+
+		if (projectChoice === 'javafx') {
+			log(green(`\tOpen \'${projectName}\' dir as Intellij Project`));
+			log(
+				warn(
+					`\tThen, Visit below link to configure RUN/DEBUG script with Intellij`
+				)
+			);
+			process.stdout.write(info('\tLINK: '));
+			log(
+				'https://github.com/dev-SR/node-cli/tree/main/templates/javafx#rundebug-configurations'
+			);
+		} else {
+			console.log(chalk.yellow('Now run:'));
+			console.log(chalk.blue(`\tcd ${projectName}`));
+			console.log(chalk.blue("\tnpm install (or, 'yarn')"));
+		}
 	}, 1000);
 });
