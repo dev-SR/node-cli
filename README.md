@@ -2,6 +2,12 @@
 
 Simple CLI to create project form predefined templates
 
+- [Node.js Command Line Application](#nodejs-command-line-application)
+  - [Usages](#usages)
+  - [Available Templates](#available-templates)
+  - [How it works](#how-it-works)
+  - [Creating your own CLI with nodejs](#creating-your-own-cli-with-nodejs)
+
 ## Usages
 
 ```bash
@@ -13,7 +19,7 @@ npm i dev-sr
 dev-sr
 ```
 
-> Install Locally:
+Install Locally:
 
 Copy git repo then,
 
@@ -22,8 +28,15 @@ yarn build
 npm link
 ```
 
-## How it works
+## Available Templates
 
+- `electron.js` with `react`,`typescript`,`vite`,`tailwindCSS`
+- vanilla `typescript`
+- `javaFX` with `Maven`
+- `next.js` with  `typescript`, `tailwindCSS`
+- `Create React App` with `typescript`, `tailwindCSS`,`vite`,`eslint`,`prettier`
+
+## How it works
 
 ![gif](https://raw.githubusercontent.com/dev-SR/node-cli/main/cli.gif)
 
