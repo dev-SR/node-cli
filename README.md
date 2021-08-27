@@ -7,6 +7,7 @@ Simple CLI to create project form predefined templates
   - [Available Templates](#available-templates)
   - [How it works](#how-it-works)
   - [Creating your own CLI with nodejs](#creating-your-own-cli-with-nodejs)
+  - [Build and Publish](#build-and-publish)
 
 ## Usages
 
@@ -101,4 +102,20 @@ To uninstall your script, run the following command.
 
 ```powershell
 npm uninstall -g cli
+```
+
+## Build and Publish
+
+build before publish
+
+```json
+"scripts": {
+  "dev": "ts-node-dev --respawn src/index.ts",
+  "build": "tsc",
+  "prepublish": "yarn build"
+ },
+```
+
+```sh
+yarn publish
 ```
