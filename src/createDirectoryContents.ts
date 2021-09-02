@@ -17,7 +17,8 @@ const createDirectoryContents = (
 		if (stats.isFile()) {
 			const contents = fs.readFileSync(origFilePath, 'utf8');
 			// Rename
-			if (fileOrFolder === '.npmignore') fileOrFolder = '.gitignore';
+			if (fileOrFolder === '.gitignore.template')
+				fileOrFolder = '.gitignore';
 			const writePath = `${CURR_DIR}/${newProjectPath}/${fileOrFolder}`;
 			if (!newProjectPath.includes('.git')) {
 				log(
