@@ -13,6 +13,9 @@ const createDirectoryContents = (templatePath, newProjectPath) => {
         // if file
         if (stats.isFile()) {
             const contents = fs.readFileSync(origFilePath, 'utf8');
+            // Rename
+            if (fileOrFolder === '.npmignore')
+                fileOrFolder = '.gitignore';
             const writePath = `${CURR_DIR}/${newProjectPath}/${fileOrFolder}`;
             if (!newProjectPath.includes('.git')) {
                 log(chalk.black.bgGreen(' CREATED ') +
