@@ -12,15 +12,13 @@ const createDirectoryContents = (templatePath, newProjectPath) => {
         const stats = fs.statSync(origFilePath);
         // if file
         if (stats.isFile()) {
-            const contents = fs.readFileSync(origFilePath, 'utf8');
             // Rename
             if (fileOrFolder === '.gitignore.template')
                 fileOrFolder = '.gitignore';
+            const contents = fs.readFileSync(origFilePath, 'utf8');
             const writePath = `${CURR_DIR}/${newProjectPath}/${fileOrFolder}`;
             if (!newProjectPath.includes('.git')) {
-                log(chalk.black.bgGreen(' CREATED ') +
-                    ' ' +
-                    `${newProjectPath}/${fileOrFolder}`);
+                log(chalk.black.bgGreen(' CREATED ') + ' ' + `${newProjectPath}/${fileOrFolder}`);
             }
             fs.writeFileSync(writePath, contents, 'utf8');
         } // if folder:
