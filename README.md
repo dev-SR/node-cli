@@ -1,6 +1,6 @@
 # Node.js Command Line Application
 
-Simple CLI to create project form predefined templates
+Simple CLI to create project from predefined templates
 
 - [Node.js Command Line Application](#nodejs-command-line-application)
   - [Usages](#usages)
