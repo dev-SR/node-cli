@@ -1,6 +1,6 @@
 {
 	"name": "dev-sr",
-	"version": "3.0.0",
+	"version": "3.0.1",
 	"main": "build/index.js",
 	"bin": {
 		"dev-sr": "build/index.js"
