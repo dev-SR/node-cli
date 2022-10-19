@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 
 import { prompt } from 'inquirer';
-import * as fs from 'fs';
-import createDirectoryContents from './createDirectoryContents';
-import * as ora from 'ora';
-import * as chalk from 'chalk';
+import fs from 'fs';
+import cloneProject from './cloneProject';
+import installPackages from './installPackages';
+import ora from 'ora';
+import chalk from 'chalk';
+import path from 'path';
 const log = console.log;
 
 const error = chalk.red;
@@ -19,7 +21,7 @@ const CURRENT_DIR = process.cwd();
 // CURRENT_DIR: current dir of opened terminal -> C:\Users\soikat\Desktop
 
 // Get All the sub-folder names inside 'templates' folder
-const CHOICES = fs.readdirSync(`${__dirname}/../templates`);
+const CHOICES = fs.readdirSync(path.join(CURRENT_DIR, 'templates'));
 
 const QUESTIONS = [
 	{
@@ -33,49 +35,47 @@ const QUESTIONS = [
 		type: 'input',
 		message: 'Project name:',
 		validate: function (input: string) {
-			if (/^([A-Za-z\-\\_\d])+$/.test(input)) return true;
-			else
-				return 'Project name may only include letters, numbers, underscores and hashes.';
+			if (/^([A-Za-z\.\-\\_\d])+$/.test(input)) return true;
+			else return 'Project name may only include letters, numbers, underscores and hashes.';
 		}
 	}
 ];
 prompt(QUESTIONS).then((answers) => {
 	const projectChoice = answers['project-choice'];
 	const projectName: string = answers['project-name'];
-	const templatePath = `${__dirname}/../templates/${projectChoice}`;
+	// const templatePath = `${__dirname}/../templates/${projectChoice}`;
+	const templatePath = path.join(CURRENT_DIR, 'templates', projectChoice);
+	let destinationPath = CURRENT_DIR;
 
-	const DirPath = `${CURRENT_DIR}/${projectName}`;
+	if (projectName !== '.') {
+		destinationPath = path.join(CURRENT_DIR, projectName);
+	}
+
 	const spinner = ora('Initiating Project Structure...').start();
 	spinner.color = 'yellow';
 	spinner.text = 'Creating files...';
 	// spinner.color = 'yellow';
 	// Make Project Directory
-	if (!fs.existsSync(DirPath)) fs.mkdirSync(DirPath);
+	console.log('\n\n');
 
 	// Populate Project Directory
 	setTimeout(() => {
-		console.log();
-		console.log();
-		createDirectoryContents(templatePath, projectName);
-		console.log();
+		cloneProject(templatePath, destinationPath);
 		spinner.succeed('Project Created Successfully');
-		console.log();
 
 		if (projectChoice === 'javafx') {
 			log(green(`\tOpen \'${projectName}\' dir as Intellij Project`));
-			log(
-				warn(
-					`\tThen, Visit below link to configure RUN/DEBUG script with Intellij`
-				)
-			);
+			log(warn(`\tThen, Visit below link to configure RUN/DEBUG script with Intellij`));
 			process.stdout.write(info('\tLINK: '));
 			log(
 				'https://github.com/dev-SR/node-cli/tree/main/templates/javafx#rundebug-configurations'
 			);
-		} else {
-			console.log(chalk.yellow('Now run:'));
-			console.log(chalk.blue(`\tcd ${projectName}`));
-			console.log(chalk.blue("\tnpm install (or, 'yarn')"));
+		} else if (
+			projectChoice === 'react-ts' ||
+			projectChoice === 'nextjs-ts' ||
+			projectChoice === 'electronjs-react-ts'
+		) {
+			installPackages(destinationPath);
 		}
 	}, 1000);
 });
