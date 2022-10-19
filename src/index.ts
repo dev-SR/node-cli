@@ -14,14 +14,15 @@ const warn = chalk.yellow;
 const info = chalk.blue;
 const green = chalk.green;
 
-// const __dirname = resolve(dirname(''));
-
 const CURRENT_DIR = process.cwd();
+// const __dirname = resolve(dirname(''));
+const templatesFoPath = path.join(__dirname, '..', 'templates');
+// se __dirname vs process.cwd(): https://github.com/dev-SR/exercise/tree/main/TS-JS/TS/04file-processing#working-directoryprocesscwd-vs-__dirname
 // __dirname: dir of template -> D:\Others\Project\CLI\build
-// CURRENT_DIR: current dir of opened terminal -> C:\Users\soikat\Desktop
+// CURRENT_DIR: current dir of opened terminal -> C:\Users\user\Desktop
 
 // Get All the sub-folder names inside 'templates' folder
-const CHOICES = fs.readdirSync(path.join(CURRENT_DIR, 'templates'));
+const CHOICES = fs.readdirSync(templatesFoPath);
 
 const QUESTIONS = [
 	{
@@ -44,7 +45,7 @@ prompt(QUESTIONS).then((answers) => {
 	const projectChoice = answers['project-choice'];
 	const projectName: string = answers['project-name'];
 	// const templatePath = `${__dirname}/../templates/${projectChoice}`;
-	const templatePath = path.join(CURRENT_DIR, 'templates', projectChoice);
+	const templatePath = path.join(templatesFoPath, projectChoice);
 	let destinationPath = CURRENT_DIR;
 
 	if (projectName !== '.') {
@@ -71,9 +72,9 @@ prompt(QUESTIONS).then((answers) => {
 				'https://github.com/dev-SR/node-cli/tree/main/templates/javafx#rundebug-configurations'
 			);
 		} else if (
+			projectChoice === 'hello-world-ts' ||
 			projectChoice === 'react-ts' ||
-			projectChoice === 'nextjs-ts' ||
-			projectChoice === 'electronjs-react-ts'
+			projectChoice === 'nextjs-ts'
 		) {
 			installPackages(destinationPath);
 		}

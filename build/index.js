@@ -16,12 +16,14 @@ const error = chalk_1.default.red;
 const warn = chalk_1.default.yellow;
 const info = chalk_1.default.blue;
 const green = chalk_1.default.green;
-// const __dirname = resolve(dirname(''));
 const CURRENT_DIR = process.cwd();
+// const __dirname = resolve(dirname(''));
+const templatesFoPath = path_1.default.join(__dirname, '..', 'templates');
+// se __dirname vs process.cwd(): https://github.com/dev-SR/exercise/tree/main/TS-JS/TS/04file-processing#working-directoryprocesscwd-vs-__dirname
 // __dirname: dir of template -> D:\Others\Project\CLI\build
-// CURRENT_DIR: current dir of opened terminal -> C:\Users\soikat\Desktop
+// CURRENT_DIR: current dir of opened terminal -> C:\Users\user\Desktop
 // Get All the sub-folder names inside 'templates' folder
-const CHOICES = fs_1.default.readdirSync(path_1.default.join(CURRENT_DIR, 'templates'));
+const CHOICES = fs_1.default.readdirSync(templatesFoPath);
 const QUESTIONS = [
     {
         name: 'project-choice',
@@ -45,7 +47,7 @@ const QUESTIONS = [
     const projectChoice = answers['project-choice'];
     const projectName = answers['project-name'];
     // const templatePath = `${__dirname}/../templates/${projectChoice}`;
-    const templatePath = path_1.default.join(CURRENT_DIR, 'templates', projectChoice);
+    const templatePath = path_1.default.join(templatesFoPath, projectChoice);
     let destinationPath = CURRENT_DIR;
     if (projectName !== '.') {
         destinationPath = path_1.default.join(CURRENT_DIR, projectName);
@@ -66,9 +68,9 @@ const QUESTIONS = [
             process.stdout.write(info('\tLINK: '));
             log('https://github.com/dev-SR/node-cli/tree/main/templates/javafx#rundebug-configurations');
         }
-        else if (projectChoice === 'react-ts' ||
-            projectChoice === 'nextjs-ts' ||
-            projectChoice === 'electronjs-react-ts') {
+        else if (projectChoice === 'hello-world-ts' ||
+            projectChoice === 'react-ts' ||
+            projectChoice === 'nextjs-ts') {
             (0, installPackages_1.default)(destinationPath);
         }
     }, 1000);
