@@ -110,10 +110,10 @@ build before publish
 
 ```json
 "scripts": {
-  "dev": "ts-node-dev --respawn src/index.ts",
+  "dev": "ts-node src/index.ts",
   "build": "tsc",
   "prepublish": "yarn build"
- },
+},
 ```
 
 ```sh

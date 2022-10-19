@@ -66,13 +66,10 @@ const QUESTIONS = [
             process.stdout.write(info('\tLINK: '));
             log('https://github.com/dev-SR/node-cli/tree/main/templates/javafx#rundebug-configurations');
         }
-        else if (projectChoice === 'react-ts') {
+        else if (projectChoice === 'react-ts' ||
+            projectChoice === 'nextjs-ts' ||
+            projectChoice === 'electronjs-react-ts') {
             (0, installPackages_1.default)(destinationPath);
-        }
-        else {
-            console.log(chalk_1.default.yellow('Now run:'));
-            console.log(chalk_1.default.blue(`\tcd ${projectName}`));
-            console.log(chalk_1.default.blue("\tnpm install (or, 'yarn')"));
         }
     }, 1000);
 });

@@ -1,11 +1,14 @@
 {
 	"compilerOptions": {
-		"target": "ESNEXT",
+		"skipLibCheck": true,
+		"target": "es6",
 		"module": "commonjs",
+		"moduleResolution": "node",
+		"allowJs": true,
 		"resolveJsonModule": true,
+		"esModuleInterop": true,
 		"outDir": "build"
 	},
-	"include": ["src/**/*"],
-	"exclude": ["node_modules"]
+	"include": ["src/**/*.ts"],
+	"exclude": ["node_modules", "templates"]
 }
-/* https://howtodoinjava.com/typescript/tsconfig-json/ */
