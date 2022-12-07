@@ -36,6 +36,7 @@ npm link
 - `javaFX` with `Maven`
 - `next.js` with  `typescript`, `tailwindCSS`
 - `Create React App` with `typescript`, `tailwindCSS`,`vite`,`eslint`,`prettier`
+- `next-fullstack` with `typescript`, `tailwindCSS`,`vite`,`eslint`,`prettier`,`mantine UI` ,`prisma` and `next-auth`
 
 ## How it works
 
@@ -115,6 +116,8 @@ build before publish
   "prepublish": "yarn build"
 },
 ```
+
+Publish to npm:
 
 ```sh
 yarn publish
