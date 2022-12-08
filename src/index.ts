@@ -68,13 +68,12 @@ prompt(QUESTIONS).then((answers) => {
 			log(green(`\tOpen \'${projectName}\' dir as Intellij Project`));
 			log(warn(`\tThen, Visit below link to configure RUN/DEBUG script with Intellij`));
 			process.stdout.write(info('\tLINK: '));
-			log(
-				'https://github.com/dev-SR/node-cli/tree/main/templates/javafx#rundebug-configurations'
-			);
+			log('https://github.com/dev-SR/node-cli/tree/main/templates/javafx#rundebug-configurations');
 		} else if (
 			projectChoice === 'hello-world-ts' ||
 			projectChoice === 'react-ts' ||
-			projectChoice === 'nextjs-ts'
+			projectChoice === 'nextjs-ts' ||
+			projectChoice === 'next-fullstack'
 		) {
 			installPackages(destinationPath);
 		}

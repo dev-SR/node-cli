@@ -1,10 +1,20 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import { MantineProvider, ColorSchemeProvider, ColorScheme } from '@mantine/core';
+import { MantineProvider, ColorSchemeProvider, ColorScheme, Center, Loader } from '@mantine/core';
 import { useLocalStorage } from '@mantine/hooks';
+import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { CustomAppProps } from '@libs/types/CustomNextType';
+import { SessionProvider, useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
-function MyApp(props: AppProps) {
-	const { Component, pageProps } = props;
+function MyApp(props: CustomAppProps) {
+	const {
+		Component,
+		pageProps: { session, ...pageProps }
+	} = props;
+
 	// https://mantine.dev/guides/dark-theme/
 	const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
 		key: 'mantine-color-scheme',
@@ -14,6 +24,7 @@ function MyApp(props: AppProps) {
 	const toggleColorScheme = (value?: ColorScheme) => {
 		setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
 	};
+	const [queryClient] = useState(() => new QueryClient());
 
 	return (
 		<>
@@ -22,10 +33,44 @@ function MyApp(props: AppProps) {
 					theme={{ colorScheme: colorScheme, fontFamily: 'Inter, sans-serif' }}
 					withGlobalStyles
 					withNormalizeCSS>
-					<Component {...pageProps} />
+					<QueryClientProvider client={queryClient}>
+						<Hydrate state={pageProps.dehydratedState}>
+							<SessionProvider session={session}>
+								{Component.auth ? (
+									<AuthGuard>
+										<Component {...pageProps} />
+									</AuthGuard>
+								) : (
+									<Component {...pageProps} />
+								)}
+							</SessionProvider>{' '}
+							<ReactQueryDevtools initialIsOpen={false} />
+						</Hydrate>
+					</QueryClientProvider>
 				</MantineProvider>
 			</ColorSchemeProvider>
 		</>
 	);
 }
+const AuthGuard = ({ children }: { children: React.ReactNode }): any => {
+	const { data, status } = useSession();
+	const router = useRouter();
+	useEffect(() => {
+		if (status === 'unauthenticated')
+			if (router.pathname !== '/auth/signin') router.push('/auth/signin');
+	}, [data, status]);
+	if (status === 'loading') {
+		return (
+			<Center
+				sx={{
+					height: '100vh',
+					width: '100vw'
+				}}>
+				<Loader size={'lg'} />
+			</Center>
+		);
+	}
+	if (status === 'authenticated') return <>{children}</>;
+};
+
 export default MyApp;
