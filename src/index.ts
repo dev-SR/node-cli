@@ -75,7 +75,15 @@ prompt(QUESTIONS).then((answers) => {
 			projectChoice === 'nextjs-ts' ||
 			projectChoice === 'next-fullstack'
 		) {
-			installPackages(destinationPath);
+			if (
+				projectChoice === 'react-ts' ||
+				projectChoice === 'nextjs-ts' ||
+				projectChoice === 'next-fullstack'
+			) {
+				installPackages(destinationPath, true);
+			} else {
+				installPackages(destinationPath);
+			}
 		}
 	}, 1000);
 });

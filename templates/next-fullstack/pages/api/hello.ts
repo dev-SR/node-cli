@@ -1,13 +1,7 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
+import { protect } from '@server/middleware/auth-protect';
+import { handler } from '@server/handler';
+import { getHello } from '@server/controllers/getHello';
 
-type Data = {
-  name: string
-}
+handler.use(protect).get(getHello);
 
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
-  res.status(200).json({ name: 'John Doe' })
-}
+export default handler;

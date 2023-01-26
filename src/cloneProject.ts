@@ -1,9 +1,12 @@
 import fs from 'fs';
 import chalk from 'chalk';
-// const createDirectoryContents = (templatePath: string, newProjectPath: string) => {
-// 	const filesToCreate = fs.readdirSync(templatePath);
+const CURR_DIR = process.cwd();
+const log = console.log;
 
-// 	filesToCreate.forEach((fileOrFolder) => {
+// const createDirectoryContents = (templatePath: string, newProjectPath: string) => {
+// 	const CURRENT_DIR_CONTENTS = fs.readdirSync(templatePath);
+
+// 	CURRENT_DIR_CONTENTS.forEach((fileOrFolder) => {
 // 		const origFilePath = `${templatePath}/${fileOrFolder}`;
 
 // 		// get stats about the current file/folder
@@ -36,12 +39,34 @@ import chalk from 'chalk';
 // 	});
 // };
 
+const debugCreation = (templatePath: string, newProjectPath: string) => {
+	const CURRENT_DIR_CONTENTS = fs.readdirSync(templatePath);
+
+	CURRENT_DIR_CONTENTS.forEach((fileOrFolder) => {
+		const origFilePath = `${templatePath}/${fileOrFolder}`;
+
+		// get stats about the current file/folder
+		const stats = fs.statSync(origFilePath);
+		// if file
+		if (stats.isFile()) {
+			const writePath = `${newProjectPath}/${fileOrFolder}`.replace(/\//g, '\\');
+			log(chalk.black.bgGreen(' CREATED ') + ' ' + writePath);
+		} // if folder:
+		else if (stats.isDirectory()) {
+			// recursive call for sub folders
+			debugCreation(`${templatePath}/${fileOrFolder}`, `${newProjectPath}/${fileOrFolder}`);
+		}
+	});
+};
+
 function cloneProject(sourcePath: string, destinationPath: string) {
-	fs.cp(sourcePath, destinationPath, { recursive: true }, (err) => {
+	log();
+	debugCreation(sourcePath, destinationPath);
+
+	fs.cp(sourcePath, destinationPath, { recursive: true, errorOnExist: false }, (err) => {
 		if (err) {
 			chalk.red(err);
 		}
 	});
 }
-
 export default cloneProject;

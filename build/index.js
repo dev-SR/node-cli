@@ -70,7 +70,8 @@ const QUESTIONS = [
         }
         else if (projectChoice === 'hello-world-ts' ||
             projectChoice === 'react-ts' ||
-            projectChoice === 'nextjs-ts') {
+            projectChoice === 'nextjs-ts' ||
+            projectChoice === 'next-fullstack') {
             (0, installPackages_1.default)(destinationPath);
         }
     }, 1000);

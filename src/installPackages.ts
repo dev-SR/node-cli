@@ -1,18 +1,35 @@
 import { exec } from 'child_process';
+import ora from 'ora';
 // promisify convert sync function to async function
 import { promisify } from 'util';
-import chalk from 'chalk';
-const log = console.log;
+import open from 'open';
+const delay = (s) => new Promise((res) => setTimeout(res, s * 1000));
 
-const execAsync = promisify(exec);
+async function installPackages(dir: string, startServer = false) {
+	const execP = promisify(exec);
 
-function installPackages(dir: string) {
-	log(chalk.yellowBright('Installing packages...'));
-	const installProcess = exec(`cd ${dir} && yarn`);
+	const spinner = ora('Installing packages...').start();
 
-	installProcess.stdout.on('data', (data) => process.stdout.write(data));
-	installProcess.stderr.on('data', (data) => process.stdout.write(data));
-	installProcess.on('close', (code) => process.stdout.write(`exited with ${code}`));
+	try {
+		const { stdout: stdout1, stderr: stderr1 } = await execP(`cd ${dir} && yarn`);
+		spinner.succeed();
+		console.log(stdout1);
+		console.error(stderr1);
+		if (startServer) {
+			spinner.start('Starting dev server...');
+			delay(2);
+			spinner.succeed();
+			const server = exec(`cd ${dir} && yarn dev && pause`);
+			server.stdout.on('data', (data) => process.stdout.write(data));
+			server.stderr.on('data', (data) => process.stdout.write(data));
+			delay(3);
+			//now open browser
+			await open('http://localhost:3000/', { wait: false });
+		}
+	} catch (err) {
+		spinner.fail();
+		console.error(err);
+	}
 }
 
 export default installPackages;

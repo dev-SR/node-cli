@@ -1,5 +1,4 @@
 import '../styles/globals.css';
-import type { AppProps } from 'next/app';
 import { MantineProvider, ColorSchemeProvider, ColorScheme, Center, Loader } from '@mantine/core';
 import { useLocalStorage } from '@mantine/hooks';
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -37,13 +36,14 @@ function MyApp(props: CustomAppProps) {
 						<Hydrate state={pageProps.dehydratedState}>
 							<SessionProvider session={session}>
 								{Component.auth ? (
-									<AuthGuard>
+									<AuthGuard role={Component.role}>
 										<Component {...pageProps} />
 									</AuthGuard>
 								) : (
 									<Component {...pageProps} />
 								)}
-							</SessionProvider>{' '}
+								|
+							</SessionProvider>
 							<ReactQueryDevtools initialIsOpen={false} />
 						</Hydrate>
 					</QueryClientProvider>
@@ -52,8 +52,16 @@ function MyApp(props: CustomAppProps) {
 		</>
 	);
 }
-const AuthGuard = ({ children }: { children: React.ReactNode }): any => {
+const AuthGuard = ({
+	children,
+	role
+}: {
+	children: React.ReactNode;
+	role: string | undefined;
+}): any => {
 	const { data, status } = useSession();
+	console.log(role, data);
+
 	const router = useRouter();
 	useEffect(() => {
 		if (status === 'unauthenticated')
@@ -70,7 +78,22 @@ const AuthGuard = ({ children }: { children: React.ReactNode }): any => {
 			</Center>
 		);
 	}
-	if (status === 'authenticated') return <>{children}</>;
+	if (status === 'authenticated') {
+		if (role) {
+			if (data?.user?.role === role) return children;
+			else
+				return (
+					<Center
+						sx={{
+							height: '100vh',
+							width: '100vw'
+						}}>
+						<h1>Not Authorized</h1>
+					</Center>
+				);
+		}
+		return children;
+	}
 };
 
 export default MyApp;
